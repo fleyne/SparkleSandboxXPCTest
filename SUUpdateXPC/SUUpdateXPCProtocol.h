@@ -5,6 +5,7 @@
 //  Created by Fabrice Leyne on 3/31/16.
 //  Copyright © 2016 Sparkle Project. All rights reserved.
 //
+//New for XPC vs Sparkle 1.14
 
 #import <Foundation/Foundation.h>
 

@@ -5,6 +5,7 @@
 //  Created by Andy Matuschak on 4/23/08.
 //  Copyright 2008 Andy Matuschak. All rights reserved.
 //
+//Modified for XPC vs Sparkle 1.14
 
 #import "SUBasicUpdateDriver.h"
 
