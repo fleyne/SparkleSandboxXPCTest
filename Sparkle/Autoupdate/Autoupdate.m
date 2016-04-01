@@ -7,6 +7,8 @@
 
 #include <unistd.h>
 
+#import "SUAppHash.h"
+
 /*!
  * Time this app uses to recheck if the parent has already died.
  */
@@ -87,7 +89,7 @@ static const NSTimeInterval SUTerminationTimeDelay = 0.5;
  * shouldRelaunch - indicates if the new installed app should re-launched
  * shouldShowUI - indicates if we should show the status window when installing the update
  */
-- (instancetype)initWithHostPath:(NSString *)hostPath relaunchPath:(NSString *)relaunchPath parentProcessId:(pid_t)parentProcessId updateFolderPath:(NSString *)updateFolderPath shouldRelaunch:(BOOL)shouldRelaunch shouldShowUI:(BOOL)shouldShowUI;
+- (instancetype)initWithHostPath:(NSString *)hostPath relaunchPath:(NSString *)relaunchPath parentProcessId:(pid_t)parentProcessId updateFolderPath:(NSString *)updateFolderPath md5check:(NSString*)md5string shouldRelaunch:(BOOL)shouldRelaunch shouldShowUI:(BOOL)shouldShowUI;
 
 @end
 
@@ -104,6 +106,8 @@ static const NSTimeInterval SUTerminationTimeDelay = 0.5;
 
 @property (nonatomic, assign) BOOL isTerminating;
 
+
+@property (nonatomic, copy) NSString *md5string;
 @end
 
 @implementation AppInstaller
@@ -117,7 +121,9 @@ static const NSTimeInterval SUTerminationTimeDelay = 0.5;
 @synthesize shouldShowUI = _shouldShowUI;
 @synthesize isTerminating = _isTerminating;
 
-- (instancetype)initWithHostPath:(NSString *)hostPath relaunchPath:(NSString *)relaunchPath parentProcessId:(pid_t)parentProcessId updateFolderPath:(NSString *)updateFolderPath shouldRelaunch:(BOOL)shouldRelaunch shouldShowUI:(BOOL)shouldShowUI
+@synthesize md5string = _md5string;
+
+- (instancetype)initWithHostPath:(NSString *)hostPath relaunchPath:(NSString *)relaunchPath parentProcessId:(pid_t)parentProcessId updateFolderPath:(NSString *)updateFolderPath md5check:(NSString*)md5string shouldRelaunch:(BOOL)shouldRelaunch shouldShowUI:(BOOL)shouldShowUI
 {
     if (!(self = [super init])) {
         return nil;
@@ -129,6 +135,7 @@ static const NSTimeInterval SUTerminationTimeDelay = 0.5;
     self.updateFolderPath = updateFolderPath;
     self.shouldRelaunch = shouldRelaunch;
     self.shouldShowUI = shouldShowUI;
+    self.md5string = md5string;
     
     return self;
 }
@@ -152,8 +159,39 @@ static const NSTimeInterval SUTerminationTimeDelay = 0.5;
     }];
 }
 
+-(bool) isCopyLegitimate
+{
+    NSString* md5str = [SUAppHash hashAtPath:self.updateFolderPath];
+    bool isLegitimate = YES;
+    
+    if(!md5str) isLegitimate = NO;
+    else if([self.md5string length] == 0) isLegitimate = NO;
+    else if([md5str length] == 0) isLegitimate = NO;
+    else if(![md5str isEqualToString:self.md5string]) isLegitimate = NO;
+    
+    if(!isLegitimate)
+    {
+        //If not legitimate let's remove the package
+        NSError *theError = nil;
+        if (![[NSFileManager defaultManager] removeItemAtPath:self.updateFolderPath error:&theError]) {
+            SULog(@"Couldn't remove update folder: %@.", theError);
+        }
+        
+        //let's alert the user that the op cannot be complete
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setMessageText:@"Error"];
+        [alert setInformativeText:@"Operation cannot be completed!"];
+        [alert runModal];        
+    }
+    
+    return isLegitimate;
+}
+
 - (void)install
 {
+    if(![self isCopyLegitimate])
+        [NSApp terminate:nil];
+    
     NSBundle *theBundle = [NSBundle bundleWithPath:self.hostPath];
     
     SUHost *host = [[SUHost alloc] initWithBundle:theBundle];
@@ -167,7 +205,7 @@ static const NSTimeInterval SUTerminationTimeDelay = 0.5;
                                    maxProgressValue: 0 statusText: @""];
         [self.statusController showWindow:self];
     }
-    
+        
 
     [SUInstaller installFromUpdateFolder:self.updateFolderPath
                                 overHost:host
@@ -244,13 +282,13 @@ int main(int __unused argc, const char __unused *argv[])
     @autoreleasepool
     {
         NSArray *args = [[NSProcessInfo processInfo] arguments];
-        if (args.count < 5 || args.count > 7) {
+        if (args.count < 6 || args.count > 8) {
             return EXIT_FAILURE;
         }
         
         NSApplication *application = [NSApplication sharedApplication];
 
-        BOOL shouldShowUI = (args.count > 6) ? [[args objectAtIndex:6] boolValue] : YES;
+        BOOL shouldShowUI = (args.count > 7) ? [[args objectAtIndex:7] boolValue] : YES;
         if (shouldShowUI) {
             [application activateIgnoringOtherApps:YES];
         }
@@ -259,7 +297,8 @@ int main(int __unused argc, const char __unused *argv[])
                                                                relaunchPath:[args objectAtIndex:2]
                                                             parentProcessId:[[args objectAtIndex:3] intValue]
                                                            updateFolderPath:[args objectAtIndex:4]
-                                                             shouldRelaunch:(args.count > 5) ? [[args objectAtIndex:5] boolValue] : YES
+                                                                   md5check:[args objectAtIndex:5]
+                                                             shouldRelaunch:(args.count > 6) ? [[args objectAtIndex:6] boolValue] : YES
                                                                shouldShowUI:shouldShowUI];
         [application setDelegate:appInstaller];
         [application run];

@@ -9,6 +9,7 @@
 
 #import "SUUpdateXPC.h"
 #import "SUFileManager.h"
+#import "SUAppHash.h"
 
 @implementation SUUpdateXPC
 
@@ -107,10 +108,14 @@
     }
     
     
+    NSString* md5str = [SUAppHash hashAtPath:self.tempDir];
+    if(!md5str) md5str = @"";
+    
     [NSTask launchedTaskWithLaunchPath:relaunchToolPath arguments:@[self.hostbundlePath,
                                                                     self.hostbundlePath,
                                                                     self.processIdentifierString,
                                                                     self.tempDir,
+                                                                    md5str,
                                                                     relaunch ? @"1" : @"0",
                                                                     showUI ? @"1" : @"0"]];
     

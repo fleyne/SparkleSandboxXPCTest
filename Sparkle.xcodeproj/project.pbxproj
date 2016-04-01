@@ -212,6 +212,14 @@
 		A05344D91CACBAC800290084 /* SUOperatingSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 726F2CE41BC9C33D001971A4 /* SUOperatingSystem.m */; settings = {ASSET_TAGS = (); }; };
 		A05344DA1CACBACE00290084 /* SUFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7275F9C01B5F1F2900B1D19E /* SUFileManager.m */; settings = {ASSET_TAGS = (); }; };
 		A05344DB1CACBB2F00290084 /* SUConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 61299A5F09CA6EB100B7442F /* SUConstants.m */; settings = {ASSET_TAGS = (); }; };
+		A053450E1CAE52FE00290084 /* FileHash.h in Headers */ = {isa = PBXBuildFile; fileRef = A053450A1CAE52FE00290084 /* FileHash.h */; settings = {ASSET_TAGS = (); }; };
+		A053450F1CAE52FE00290084 /* FileHash.m in Sources */ = {isa = PBXBuildFile; fileRef = A053450B1CAE52FE00290084 /* FileHash.m */; settings = {ASSET_TAGS = (); }; };
+		A05345101CAE52FE00290084 /* SUAppHash.h in Headers */ = {isa = PBXBuildFile; fileRef = A053450C1CAE52FE00290084 /* SUAppHash.h */; settings = {ASSET_TAGS = (); }; };
+		A05345111CAE52FE00290084 /* SUAppHash.m in Sources */ = {isa = PBXBuildFile; fileRef = A053450D1CAE52FE00290084 /* SUAppHash.m */; settings = {ASSET_TAGS = (); }; };
+		A05345151CAE5A8F00290084 /* SUAppHash.m in Sources */ = {isa = PBXBuildFile; fileRef = A053450D1CAE52FE00290084 /* SUAppHash.m */; settings = {ASSET_TAGS = (); }; };
+		A05345161CAE5A9200290084 /* FileHash.m in Sources */ = {isa = PBXBuildFile; fileRef = A053450B1CAE52FE00290084 /* FileHash.m */; settings = {ASSET_TAGS = (); }; };
+		A05345171CAE5AC500290084 /* SUAppHash.m in Sources */ = {isa = PBXBuildFile; fileRef = A053450D1CAE52FE00290084 /* SUAppHash.m */; settings = {ASSET_TAGS = (); }; };
+		A05345181CAE5ACE00290084 /* FileHash.m in Sources */ = {isa = PBXBuildFile; fileRef = A053450B1CAE52FE00290084 /* FileHash.m */; settings = {ASSET_TAGS = (); }; };
 		A5BF4F1D1BC7668B007A052A /* SUTestWebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = A5BF4F1C1BC7668B007A052A /* SUTestWebServer.m */; };
 		C23E885B1BE7B24F0050BB73 /* SparkleTestCodeSignApp.enc.dmg in Resources */ = {isa = PBXBuildFile; fileRef = C23E88591BE7AF890050BB73 /* SparkleTestCodeSignApp.enc.dmg */; };
 		F8761EB11ADC5068000C9034 /* SUCodeSigningVerifierTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F8761EB01ADC5068000C9034 /* SUCodeSigningVerifierTest.m */; };
@@ -693,6 +701,10 @@
 		A05344CB1CACB5E100290084 /* SUUpdateXPC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SUUpdateXPC.m; sourceTree = "<group>"; };
 		A05344CD1CACB5E100290084 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A05344CF1CACB5E100290084 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A053450A1CAE52FE00290084 /* FileHash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileHash.h; sourceTree = "<group>"; };
+		A053450B1CAE52FE00290084 /* FileHash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileHash.m; sourceTree = "<group>"; };
+		A053450C1CAE52FE00290084 /* SUAppHash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUAppHash.h; sourceTree = "<group>"; };
+		A053450D1CAE52FE00290084 /* SUAppHash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUAppHash.m; sourceTree = "<group>"; };
 		A5BF4F1B1BC7668B007A052A /* SUTestWebServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUTestWebServer.h; sourceTree = "<group>"; };
 		A5BF4F1C1BC7668B007A052A /* SUTestWebServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUTestWebServer.m; sourceTree = "<group>"; };
 		C23E88591BE7AF890050BB73 /* SparkleTestCodeSignApp.enc.dmg */ = {isa = PBXFileReference; lastKnownFileType = file; path = SparkleTestCodeSignApp.enc.dmg; sourceTree = "<group>"; };
@@ -1170,6 +1182,7 @@
 		A05344C81CACB5E100290084 /* SUUpdateXPC */ = {
 			isa = PBXGroup;
 			children = (
+				A05345121CAE530600290084 /* SUAppHash */,
 				A05344C91CACB5E100290084 /* SUUpdateXPCProtocol.h */,
 				A05344CA1CACB5E100290084 /* SUUpdateXPC.h */,
 				A05344CB1CACB5E100290084 /* SUUpdateXPC.m */,
@@ -1188,6 +1201,17 @@
 				A05344C01CACA4FC00290084 /* SUSandboxUpdate.m */,
 			);
 			name = SUSandboxUpdater;
+			sourceTree = "<group>";
+		};
+		A05345121CAE530600290084 /* SUAppHash */ = {
+			isa = PBXGroup;
+			children = (
+				A053450A1CAE52FE00290084 /* FileHash.h */,
+				A053450B1CAE52FE00290084 /* FileHash.m */,
+				A053450C1CAE52FE00290084 /* SUAppHash.h */,
+				A053450D1CAE52FE00290084 /* SUAppHash.m */,
+			);
+			name = SUAppHash;
 			sourceTree = "<group>";
 		};
 		FA1941C40D94A6EA00DD942E /* Configurations */ = {
@@ -1236,6 +1260,7 @@
 				6160E7E10D3B4A8800E9CD71 /* NTSynchronousTask.h in Headers */,
 				61299B3609CB04E000B7442F /* Sparkle.h in Headers */,
 				61CFB3290E385186007A1735 /* Sparkle.pch in Headers */,
+				A053450E1CAE52FE00290084 /* FileHash.h in Headers */,
 				61B5FC0D09C4FC8200B25A18 /* SUAppcast.h in Headers */,
 				61B5FC7009C51F4A00B25A18 /* SUAppcastItem.h in Headers */,
 				6120721209CC5C4B007FE0F6 /* SUAutomaticUpdateAlert.h in Headers */,
@@ -1252,6 +1277,7 @@
 				767B61AC1972D488004E0C3C /* SUGuidedPackageInstaller.h in Headers */,
 				61EF67590E25C5B400F754E0 /* SUHost.h in Headers */,
 				618FA5010DAE88B40026945C /* SUInstaller.h in Headers */,
+				A05345101CAE52FE00290084 /* SUAppHash.h in Headers */,
 				55C14F06136EF6DB00649790 /* SULog.h in Headers */,
 				726F2CE51BC9C33D001971A4 /* SUOperatingSystem.h in Headers */,
 				618FA5220DAE8E8A0026945C /* SUPackageInstaller.h in Headers */,
@@ -1703,8 +1729,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				55C14BD4136EEFCE00649790 /* Autoupdate.m in Sources */,
+				A05345181CAE5ACE00290084 /* FileHash.m in Sources */,
 				F8761EB61ADC5E7A000C9034 /* SUCodeSigningVerifier.m in Sources */,
 				55C14F00136EF6B700649790 /* SUConstants.m in Sources */,
+				A05345171CAE5AC500290084 /* SUAppHash.m in Sources */,
 				7275F9C31B5F1F2900B1D19E /* SUFileManager.m in Sources */,
 				767B61AE1972D488004E0C3C /* SUGuidedPackageInstaller.m in Sources */,
 				55C14F0C136EF6EA00649790 /* SUHost.m in Sources */,
@@ -1805,6 +1833,8 @@
 				55C14F07136EF6DB00649790 /* SULog.m in Sources */,
 				726F2CE61BC9C33D001971A4 /* SUOperatingSystem.m in Sources */,
 				618FA5230DAE8E8A0026945C /* SUPackageInstaller.m in Sources */,
+				A05345111CAE52FE00290084 /* SUAppHash.m in Sources */,
+				A053450F1CAE52FE00290084 /* FileHash.m in Sources */,
 				61D85D6D0E10B2ED00F9B4A9 /* SUPipedUnarchiver.m in Sources */,
 				A05344C21CACA4FC00290084 /* SUSandboxUpdate.m in Sources */,
 				618FA5060DAE8AB80026945C /* SUPlainInstaller.m in Sources */,
@@ -1830,7 +1860,9 @@
 			files = (
 				A05344D91CACBAC800290084 /* SUOperatingSystem.m in Sources */,
 				A05344DA1CACBACE00290084 /* SUFileManager.m in Sources */,
+				A05345161CAE5A9200290084 /* FileHash.m in Sources */,
 				A05344DB1CACBB2F00290084 /* SUConstants.m in Sources */,
+				A05345151CAE5A8F00290084 /* SUAppHash.m in Sources */,
 				A05344CE1CACB5E100290084 /* main.m in Sources */,
 				A05344CC1CACB5E100290084 /* SUUpdateXPC.m in Sources */,
 			);
