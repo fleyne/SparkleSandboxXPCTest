@@ -8,6 +8,7 @@
 //New for XPC vs Sparkle 1.14
 
 #import "SUSandboxUpdate.h"
+#import "SUAppHash.h"
 #define machServiceName @"org.sparkle-project.Sparkle.SUUpdateXPC"
 
 @implementation SUSandboxUpdate
@@ -64,6 +65,12 @@
         [dico setObject:self.tempDir forKey:@"tempDir"];
     if(self.processIdentifierString)
         [dico setObject:self.processIdentifierString forKey:@"processIdentifierString"];
+    if(self.tempDir)
+    {
+        NSString* md5str = [SUAppHash hashAtPath:self.tempDir];
+        if(!md5str) md5str = @"";
+        [dico setObject:md5str forKey:@"hashTempDir"];
+    }
     
         
     return [[NSDictionary alloc] initWithDictionary:dico];

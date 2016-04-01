@@ -13,6 +13,20 @@
 
 @implementation SUUpdateXPC
 
+-(bool) isCopyLegitimate
+{
+    bool isLegitimate = YES;
+    
+    NSString* md5str = [SUAppHash hashAtPath:self.tempDir];
+    
+    if(!md5str) isLegitimate = NO;
+    else if([self.hashTempDir length] == 0) isLegitimate = NO;
+    else if([md5str length] == 0) isLegitimate = NO;
+    else if(![md5str isEqualToString:self.hashTempDir]) isLegitimate = NO;
+    
+    return isLegitimate;
+}
+
 
 // Creates intermediate directories up until targetPath if they don't already exist,
 // and removes the directory at targetPath if one already exists there
@@ -59,7 +73,8 @@
         [self setTempDir:[dico objectForKey:@"tempDir"]];
     if([dico objectForKey:@"processIdentifierString"])
         [self setProcessIdentifierString:[dico objectForKey:@"processIdentifierString"]];
-    
+    if([dico objectForKey:@"hashTempDir"])
+        [self setHashTempDir:[dico objectForKey:@"hashTempDir"]];
 }
 
 - (void)installWithToolAndRelaunch:(BOOL)relaunch displayingUserInterface:(BOOL)showUI withDataToPerformTheCopy:(NSDictionary*) dico  withReply:(void (^)(NSError *error))reply
@@ -67,6 +82,17 @@
     NSError* Error;
     
     [self unfoldDataToPerformedTheCopty:dico];
+    
+    if(![self isCopyLegitimate])
+    {
+        Error = [NSError errorWithDomain:SUSparkleErrorDomain code:SURelaunchError userInfo:@{
+                                                                                              NSLocalizedDescriptionKey: SULocalizedString(@"An error occurred while extracting the archive. Please try again later.", nil),
+                                                                                              NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:@"Couldn't copy relauncher (%@) to temporary path (%@)! %@", self.relaunchPathToCopy, self.targetPath, @""]
+                                                                                              }];
+        reply(Error);
+        return;
+    }
+    
     
     SUFileManager *fileManager = [SUFileManager fileManagerAllowingAuthorization:NO];
     NSError *error = nil;
@@ -121,5 +147,6 @@
     
     reply(Error);
 }
+
 
 @end

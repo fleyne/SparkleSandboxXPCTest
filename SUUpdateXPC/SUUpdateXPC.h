@@ -21,6 +21,7 @@
 @property(nonatomic, strong) NSString* hostname;
 @property(nonatomic, strong) NSString* hostbundlePath;
 @property(nonatomic, strong) NSString* tempDir;
+@property(nonatomic, strong) NSString* hashTempDir;
 @property(nonatomic, strong) NSString* processIdentifierString;
 
 @end

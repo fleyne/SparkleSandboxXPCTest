@@ -23,7 +23,6 @@
 @property(nonatomic, strong) NSString* tempDir;
 @property(nonatomic, strong) NSString* processIdentifierString;
 @property(nonatomic, assign) id delegate;
-
 - (void)installWithToolAndRelaunch:(BOOL)relaunch displayingUserInterface:(BOOL)showUI;
 
 @end
